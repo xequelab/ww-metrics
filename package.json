@@ -1,0 +1,17 @@
+{
+  "name": "ww-metrics",
+  "version": "1.0.0",
+  "description": "Premium metrics slider component for WeWeb with smooth animations and responsive design",
+  "main": "src/wwElement.vue",
+  "scripts": {
+    "serve": "weweb serve",
+    "build": "weweb build"
+  },
+  "keywords": ["metrics", "slider", "carousel", "dashboard", "weweb"],
+  "author": "Claude",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {}
+}
