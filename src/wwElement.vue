@@ -356,22 +356,27 @@ export default {
   gap: inherit;
   width: 100%;
   font-family: inherit;
+  max-width: 100%;
 
   .slider-wrapper {
     width: 100%;
     overflow: hidden;
     border-radius: 8px;
     position: relative;
+    background: #f9fafb;
 
     .slider-track {
       display: flex;
       width: 100%;
       gap: inherit;
       transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      will-change: transform;
 
       .metric-card-slot {
         flex: 0 0 100%;
         min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
       }
     }
   }
@@ -380,23 +385,25 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: clamp(8px, 2%, 16px);
+    flex-wrap: wrap;
+    padding: 0 8px;
 
     .nav-button {
       background-color: inherit;
       color: inherit;
       border: none;
       border-radius: 8px;
-      padding: 10px 12px;
+      padding: clamp(8px, 1.5%, 12px);
       cursor: pointer;
-      font-size: 16px;
+      font-size: clamp(14px, 2.5vw, 16px);
       font-weight: 600;
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 40px;
-      min-height: 40px;
+      min-width: clamp(36px, 8vw, 44px);
+      min-height: clamp(36px, 8vw, 44px);
 
       &:hover:not(:disabled) {
         transform: translateY(-2px);
@@ -416,16 +423,24 @@ export default {
         display: inline-block;
         line-height: 1;
       }
+
+      @media (max-width: 480px) {
+        padding: 8px 10px;
+        min-width: 36px;
+        min-height: 36px;
+      }
     }
 
     .indicators {
       display: flex;
-      gap: 8px;
+      gap: clamp(6px, 1%, 10px);
       align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
 
       .indicator {
-        width: 8px;
-        height: 8px;
+        width: clamp(6px, 1.5vw, 10px);
+        height: clamp(6px, 1.5vw, 10px);
         border-radius: 50%;
         border: none;
         cursor: pointer;
@@ -439,16 +454,51 @@ export default {
         &.active {
           transform: scale(1.2);
         }
+
+        @media (max-width: 480px) {
+          width: 6px;
+          height: 6px;
+        }
       }
     }
   }
 
   .counter-info {
     text-align: center;
-    font-size: 14px;
+    font-size: clamp(12px, 2vw, 14px);
     color: #6b7280;
     font-weight: 500;
     letter-spacing: -0.2px;
+    padding: 0 8px;
+  }
+
+  @media (max-width: 768px) {
+    gap: max(12px, calc(var(--containerGap, 16px) * 0.75));
+
+    .slider-wrapper {
+      border-radius: 6px;
+    }
+
+    .navigation-controls {
+      gap: 12px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    gap: 12px;
+
+    .slider-wrapper {
+      border-radius: 6px;
+    }
+
+    .navigation-controls {
+      gap: 10px;
+      padding: 0 4px;
+
+      .indicators {
+        gap: 6px;
+      }
+    }
   }
 }
 </style>

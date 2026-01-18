@@ -221,7 +221,7 @@ export default {
       type: 'Length',
       section: 'style',
       bindable: true,
-      defaultValue: '16px',
+      defaultValue: '12px',
       options: {
         unitChoices: [
           { value: 'px', label: 'px', min: 0, max: 100 }
@@ -243,7 +243,7 @@ export default {
       type: 'Length',
       section: 'style',
       bindable: true,
-      defaultValue: '20px',
+      defaultValue: '12px',
       options: {
         unitChoices: [
           { value: 'px', label: 'px', min: 0, max: 100 }
@@ -265,10 +265,11 @@ export default {
       type: 'Length',
       section: 'style',
       bindable: true,
-      defaultValue: '220px',
+      defaultValue: 'auto',
       options: {
         unitChoices: [
-          { value: 'px', label: 'px', min: 150, max: 500 }
+          { value: 'px', label: 'px', min: 150, max: 500 },
+          { value: 'auto', label: 'auto' }
         ]
       },
       /* wwEditor:start */
@@ -277,7 +278,7 @@ export default {
         tooltip: 'Altura total de cada card de métrica'
       },
       propertyHelp: {
-        tooltip: 'Controla o tamanho vertical dos cards'
+        tooltip: 'Usa clamp() para responsividade automática. "auto" = responsivo'
       }
       /* wwEditor:end */
     },
