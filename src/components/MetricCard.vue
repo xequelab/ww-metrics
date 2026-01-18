@@ -127,9 +127,10 @@ export default {
   background-color: inherit;
   border: 1px solid inherit;
   border-radius: 8px;
-  padding: clamp(16px, 4vw, 24px);
+  padding: clamp(14px, 3vw, 20px);
   height: 100%;
-  min-height: clamp(160px, 50vh, 280px);
+  min-height: clamp(130px, 40vh, 200px);
+  max-height: 200px;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
@@ -146,17 +147,17 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    gap: clamp(12px, 3vw, 20px);
+    gap: clamp(10px, 2vw, 16px);
   }
 
   .metric-header {
     display: flex;
     align-items: flex-start;
-    gap: clamp(12px, 3vw, 16px);
+    gap: clamp(10px, 2vw, 14px);
     margin-bottom: 0;
 
     .metric-icon {
-      font-size: clamp(20px, 5vw, 28px);
+      font-size: clamp(18px, 4vw, 24px);
       flex-shrink: 0;
       transition: all 0.3s ease;
       animation: slideInLeft 0.5s ease;
@@ -172,22 +173,22 @@ export default {
       min-width: 0;
 
       .metric-label {
-        font-size: clamp(14px, 2.5vw, 16px);
+        font-size: clamp(13px, 2.2vw, 15px);
         font-weight: 600;
         color: #081B4E;
         margin: 0;
         padding: 0;
-        line-height: 1.3;
+        line-height: 1.2;
         letter-spacing: -0.3px;
         word-break: break-word;
       }
 
       .metric-description {
-        font-size: clamp(12px, 2vw, 14px);
+        font-size: clamp(11px, 1.8vw, 13px);
         color: #6b7280;
-        margin: 4px 0 0 0;
+        margin: 3px 0 0 0;
         padding: 0;
-        line-height: 1.3;
+        line-height: 1.2;
         word-break: break-word;
       }
     }
@@ -196,12 +197,12 @@ export default {
   .metric-value-section {
     display: flex;
     align-items: baseline;
-    gap: clamp(6px, 1.5vw, 8px);
+    gap: clamp(5px, 1.5vw, 8px);
     margin-top: auto;
     animation: slideUp 0.6s ease;
 
     .metric-value {
-      font-size: clamp(28px, 7vw, 36px);
+      font-size: clamp(24px, 6vw, 32px);
       font-weight: 700;
       color: #081B4E;
       line-height: 1;
@@ -215,7 +216,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 2px;
     background-color: inherit;
     transform: scaleX(0);
     transform-origin: left;
@@ -223,13 +224,15 @@ export default {
   }
 
   @media (max-width: 768px) {
-    padding: clamp(14px, 3vw, 20px);
-    min-height: clamp(140px, 45vh, 240px);
+    padding: clamp(12px, 2.5vw, 16px);
+    min-height: clamp(120px, 35vh, 180px);
+    max-height: 180px;
   }
 
   @media (max-width: 480px) {
-    padding: 14px;
-    min-height: 140px;
+    padding: 12px;
+    min-height: 110px;
+    max-height: 160px;
 
     .metric-content {
       gap: 12px;
