@@ -298,6 +298,27 @@ export default {
         tooltip: 'Use 100% para full width ou um valor fixo em px'
       }
       /* wwEditor:end */
+    },
+
+    cardsPerView: {
+      label: { en: 'Cards Per View', pt: 'Cards por Tela' },
+      type: 'Number',
+      section: 'settings',
+      bindable: true,
+      defaultValue: 1,
+      options: {
+        min: 1,
+        max: 5
+      },
+      /* wwEditor:start */
+      bindingValidation: {
+        type: 'number',
+        tooltip: 'Número de cards visíveis simultaneamente'
+      },
+      propertyHelp: {
+        tooltip: '1 = um por vez (carousel), 2-3 = múltiplos visíveis, responde a mudanças de viewport'
+      }
+      /* wwEditor:end */
     }
   }
 };

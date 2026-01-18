@@ -17,7 +17,7 @@
     </div>
 
     <!-- Navigation Buttons -->
-    <div v-if="showNavigationButtons && metricsData.length > 1" class="navigation-controls">
+    <div v-if="showNavigationButtons && metricsData.length > cardsPerView" class="navigation-controls">
       <button
         class="nav-button prev-button"
         :disabled="currentIndex === 0"
@@ -43,7 +43,7 @@
 
       <button
         class="nav-button next-button"
-        :disabled="currentIndex === metricsData.length - 1"
+        :disabled="currentIndex === metricsData.length - cardsPerView"
         :style="navButtonStyle"
         @click="nextMetric"
         aria-label="Próxima métrica"
@@ -53,8 +53,8 @@
     </div>
 
     <!-- Counter info -->
-    <div v-if="showCounter && metricsData.length > 1" class="counter-info">
-      {{ currentIndex + 1 }} de {{ metricsData.length }}
+    <div v-if="showCounter && metricsData.length > cardsPerView" class="counter-info">
+      {{ currentIndex + 1 }}-{{ Math.min(currentIndex + cardsPerView, metricsData.length) }} de {{ metricsData.length }}
     </div>
   </div>
 </template>
@@ -168,28 +168,28 @@ export default {
           label: 'Este Mês',
           value: agendamentosEstesMes,
           description: 'Agendamentos',
-          icon: '📆'
+          icon: '�'
         },
         {
           id: 'agendamentos-futuros',
           label: 'Próximos 30 dias',
           value: agendamentosFuturos,
           description: 'Futuros',
-          icon: '⏰'
+          icon: '🚀'
         },
         {
           id: 'total-clientes',
           label: 'Total de Clientes',
           value: clientes.length,
           description: 'Todos os tempos',
-          icon: '👥'
+          icon: '👤'
         },
         {
           id: 'clientes-novos',
           label: 'Clientes Novos',
           value: clientesNovosEstesMes,
           description: 'Este mês',
-          icon: '⭐'
+          icon: '✨'
         }
       ];
     });
@@ -209,8 +209,19 @@ export default {
     const containerGap = computed(() => props.content?.containerGap || '16px');
     const cardGap = computed(() => props.content?.cardGap || '20px');
     const cardHeight = computed(() => props.content?.cardHeight || '220px');
-    const cardWidth = computed(() => props.content?.cardWidth || '100%');
+    const cardWidth = computed(() => props.content?.cardWidth || '100%');    const cardsPerView = computed(() => {
+      const cpv = props.content?.cardsPerView || 1;
+      return Math.max(1, Math.min(5, cpv)); // Clamp entre 1 e 5
+    });
 
+    // Calcular largura do card baseado em cardsPerView
+    const calculatedCardWidth = computed(() => {
+      const cpv = cardsPerView.value;
+      const gapSize = parseInt(cardGap.value) || 12;
+      const totalGapWidth = (cpv - 1) * gapSize;
+      const availableWidth = 100 - (totalGapWidth / (100 / cpv));
+      return `calc((100% - ${(cpv - 1) * gapSize}px) / ${cpv})`;
+    });
     // Computeds de estilo
     const containerStyle = computed(() => ({
       display: 'flex',
@@ -227,7 +238,7 @@ export default {
 
     // Métodos
     const nextMetric = () => {
-      if (currentIndex.value < metricsData.value.length - 1) {
+      if (currentIndex.value < metricsData.value.length - cardsPerView.value) {
         currentIndex.value++;
         emitEvent('nextMetric');
       }
@@ -338,6 +349,7 @@ export default {
       showNavigationButtons,
       showIndicators,
       showCounter,
+      cardsPerView,
       containerStyle,
       navButtonStyle: computed(() => ({
         backgroundColor: primaryColor.value,
@@ -361,7 +373,8 @@ export default {
       goToMetric,
       nextMetricAction,
       previousMetricAction,
-      goToMetricAction
+      goToMetricAction,
+      Math
     };
   }
 };
@@ -390,12 +403,12 @@ export default {
       will-change: transform;
 
       .metric-card-slot {
-        flex: 0 0 100%;
-        width: 100%;
-        min-width: 100%;
+        flex: 0 0 calc((100% - ${cardGap.value} * (${cardsPerView.value} - 1)) / ${cardsPerView.value});
+        width: calc((100% - ${cardGap.value} * (${cardsPerView.value} - 1)) / ${cardsPerView.value});
+        min-width: 0;
         max-width: 100%;
         overflow: hidden;
-        padding: 0 clamp(4px, 1%, 8px);
+        padding: 0 clamp(2px, 0.5%, 4px);
         box-sizing: border-box;
       }
     }
