@@ -7,11 +7,25 @@
     "serve": "weweb serve",
     "build": "weweb build"
   },
-  "keywords": ["metrics", "slider", "carousel", "dashboard", "weweb"],
-  "author": "Claude",
+  "keywords": [
+    "metrics",
+    "slider",
+    "carousel",
+    "dashboard",
+    "weweb",
+    "component"
+  ],
+  "author": "Xeque Lab",
   "license": "MIT",
-  "dependencies": {
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xequelab/ww-metrics.git"
+  },
+  "peerDependencies": {
     "vue": "^3.0.0"
   },
-  "devDependencies": {}
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }
+
