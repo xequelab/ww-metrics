@@ -2,18 +2,17 @@
   <div class="metrics-slider-container" :style="containerStyle">
     <!-- Slider Track -->
     <div class="slider-wrapper">
-      <div class="slider-track" :style="sliderTrackStyle">
-        <MetricCard
-          v-for="(metric, index) in metricsData"
-          :key="metric.id"
-          :metric="metric"
-          :is-active="currentIndex === index"
-          :primary-color="primaryColor"
-          :accent-color="accentColor"
-          :background-color="cardBackgroundColor"
-          :border-color="cardBorderColor"
-          class="metric-card-slot"
-        />
+      <div class="slider-track" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
+        <div v-for="(metric, index) in metricsData" :key="metric.id" class="metric-card-slot">
+          <MetricCard
+            :metric="metric"
+            :is-active="currentIndex === index"
+            :primary-color="primaryColor"
+            :accent-color="accentColor"
+            :background-color="cardBackgroundColor"
+            :border-color="cardBorderColor"
+          />
+        </div>
       </div>
     </div>
 
@@ -220,31 +219,6 @@ export default {
       width: '100%'
     }));
 
-    const sliderTrackStyle = computed(() => ({
-      display: 'flex',
-      gap: cardGap.value,
-      transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
-      transform: `translateX(calc(-${currentIndex.value} * (${cardWidth.value} + ${cardGap.value})))`,
-      width: `${metricsData.value.length * 100}%`
-    }));
-
-    const navButtonStyle = computed(() => ({
-      backgroundColor: primaryColor.value,
-      color: '#ffffff',
-      borderRadius: '8px',
-      border: 'none',
-      padding: '10px 12px',
-      cursor: 'pointer',
-      fontSize: '16px',
-      fontWeight: '600',
-      transition: 'all 0.3s ease',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minWidth: '40px',
-      minHeight: '40px'
-    }));
-
     const getIndicatorStyle = (index) => ({
       backgroundColor: index === currentIndex.value ? primaryColor.value : '#d1d5db',
       transition: 'all 0.3s ease',
@@ -365,8 +339,22 @@ export default {
       showIndicators,
       showCounter,
       containerStyle,
-      sliderTrackStyle,
-      navButtonStyle,
+      navButtonStyle: computed(() => ({
+        backgroundColor: primaryColor.value,
+        color: '#ffffff',
+        borderRadius: '8px',
+        border: 'none',
+        padding: '10px 12px',
+        cursor: 'pointer',
+        fontSize: '16px',
+        fontWeight: '600',
+        transition: 'all 0.3s ease',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: '40px',
+        minHeight: '40px'
+      })),
       getIndicatorStyle,
       nextMetric,
       previousMetric,
@@ -398,15 +386,17 @@ export default {
     .slider-track {
       display: flex;
       width: 100%;
-      gap: inherit;
       transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       will-change: transform;
 
       .metric-card-slot {
         flex: 0 0 100%;
-        min-width: 0;
+        width: 100%;
+        min-width: 100%;
         max-width: 100%;
         overflow: hidden;
+        padding: 0 clamp(4px, 1%, 8px);
+        box-sizing: border-box;
       }
     }
   }
