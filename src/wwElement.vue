@@ -99,8 +99,26 @@ export default {
 
     // Dados de métricas - calculados automaticamente
     const metricsData = computed(() => {
-      const agendamentos = props.content?.agendamentosCollection || [];
-      const clientes = props.content?.clientesCollection || [];
+      // Obter dados com fallback para arrays vazios
+      let agendamentos = props.content?.agendamentosCollection;
+      let clientes = props.content?.clientesCollection;
+
+      // Converter para arrays se necessário
+      agendamentos = Array.isArray(agendamentos) ? agendamentos : [];
+      clientes = Array.isArray(clientes) ? clientes : [];
+
+      // Dados de teste quando coleções estão vazias (para visualização no editor)
+      if (agendamentos.length === 0 && clientes.length === 0) {
+        agendamentos = [
+          { id: 1, data_inicio: new Date().toISOString(), titulo: 'Test' },
+          { id: 2, data_inicio: new Date().toISOString(), titulo: 'Test' },
+          { id: 3, data_inicio: new Date().toISOString(), titulo: 'Test' }
+        ];
+        clientes = [
+          { id: 1, created_at: new Date().toISOString(), nome: 'Client' },
+          { id: 2, created_at: new Date().toISOString(), nome: 'Client' }
+        ];
+      }
 
       const hoje = new Date();
       const em30Dias = new Date(hoje.getTime() + 30 * 24 * 60 * 60 * 1000);
@@ -109,20 +127,32 @@ export default {
 
       // Filtro para agendamentos deste mês
       const agendamentosEstesMes = agendamentos.filter(a => {
-        const data = new Date(a.data_inicio);
-        return data.getMonth() === mesAtual && data.getFullYear() === anoAtual;
+        try {
+          const data = new Date(a.data_inicio);
+          return data.getMonth() === mesAtual && data.getFullYear() === anoAtual;
+        } catch {
+          return false;
+        }
       }).length;
 
       // Filtro para agendamentos próximos 30 dias
       const agendamentosFuturos = agendamentos.filter(a => {
-        const data = new Date(a.data_inicio);
-        return data >= hoje && data <= em30Dias;
+        try {
+          const data = new Date(a.data_inicio);
+          return data >= hoje && data <= em30Dias;
+        } catch {
+          return false;
+        }
       }).length;
 
       // Filtro para clientes novos este mês
       const clientesNovosEstesMes = clientes.filter(c => {
-        const data = new Date(c.created_at);
-        return data.getMonth() === mesAtual && data.getFullYear() === anoAtual;
+        try {
+          const data = new Date(c.created_at);
+          return data.getMonth() === mesAtual && data.getFullYear() === anoAtual;
+        } catch {
+          return false;
+        }
       }).length;
 
       // Retornar as 5 métricas
